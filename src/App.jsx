@@ -14,18 +14,16 @@ function App() {
     e.preventDefault();
   
     try {
-      const response = await fetch('https://7849230-sb1.app.netsuite.com/app/site/hosting/scriptlet.nl?script=5336&deploy=1', {
+      const response = await fetch('/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
-        
       });
   
       const data = await response.json();
   
-      if (data.success) {
+      if (data.success || data.status === 200) {
         setIsLoggedIn(true);
-        navigate('/register');
       } else {
         setError(data.message || 'Login failed');
       }
