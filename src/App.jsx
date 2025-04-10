@@ -35,11 +35,11 @@ function App() {
         setError(data.message || 'Login failed');
       }
   
-    } catch (err) {
-      console.error(err);
-      setError(err.message || 'Server error. Try again.');
-    }
-  };
+      if (!data || !data.success) {
+        setError(data.message || 'Login failed');
+        console.log('❗ RAW NetSuite response:', data.raw); // this will show you the HTML or error
+      }
+      
   
   
 

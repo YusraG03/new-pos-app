@@ -11,24 +11,25 @@ export default async function handler(req, res) {
           body: JSON.stringify(req.body),
         });
   
-        const text = await response.text(); // read body as raw string
+        const text = await response.text();
+  
+        console.log('📦 NetSuite Raw Response:', text); // <--- log it
   
         try {
-          const json = JSON.parse(text); // try parsing it
-          return res.status(200).json(json); // ✅ return parsed JSON
+          const json = JSON.parse(text);
+          return res.status(200).json(json);
         } catch {
           return res.status(500).json({
             success: false,
             message: 'NetSuite response is not JSON',
-            raw: text,
+            raw: text, // <-- return this so you can view it on frontend
           });
         }
   
       } catch (err) {
-        console.error('Login Proxy Error:', err);
         return res.status(500).json({
           success: false,
-          message: 'Proxy failed',
+          message: 'Proxy error',
           error: err.message,
         });
       }
