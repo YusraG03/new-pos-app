@@ -3,13 +3,11 @@ export default async function handler(req, res) {
       try {
         const netsuiteURL = 'https://7849230-sb1.app.netsuite.com/app/site/hosting/scriptlet.nl?script=5336&deploy=1';
   
-        const response = await fetch(netsuiteURL, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(req.body),
-        });
+        await fetch('/api/login', {
+            method: 'POST',
+            body: JSON.stringify({ email, password }),
+          });
+          
   
         const text = await response.text();
   
