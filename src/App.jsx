@@ -12,36 +12,38 @@ function App() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
       const response = await fetch('/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
-  
+
       const text = await response.text(); // <-- avoid .json() crash
       let data;
-  
+
       try {
         data = JSON.parse(text);
       } catch (err) {
         throw new Error('Server returned invalid JSON: ' + text);
       }
-  
+
       if (data.success || data.status === 200) {
         setIsLoggedIn(true);
       } else {
         setError(data.message || 'Login failed');
       }
-  
+
       if (!data || !data.success) {
         setError(data.message || 'Login failed');
         console.log('❗ RAW NetSuite response:', data.raw); // this will show you the HTML or error
       }
-      
-  
-  
+    } catch (err) {
+      console.error(err);
+      setError('Server error. Try again.');
+    }
+  };
 
   const LoginPage = () => (
     <div className="login-container">
