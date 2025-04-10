@@ -20,18 +20,27 @@ function App() {
         body: JSON.stringify({ email, password }),
       });
   
-      const data = await response.json();
+      const text = await response.text(); // <-- avoid .json() crash
+      let data;
+  
+      try {
+        data = JSON.parse(text);
+      } catch (err) {
+        throw new Error('Server returned invalid JSON: ' + text);
+      }
   
       if (data.success || data.status === 200) {
         setIsLoggedIn(true);
       } else {
         setError(data.message || 'Login failed');
       }
+  
     } catch (err) {
       console.error(err);
-      setError('Server error. Try again.');
+      setError(err.message || 'Server error. Try again.');
     }
   };
+  
   
 
   const LoginPage = () => (
