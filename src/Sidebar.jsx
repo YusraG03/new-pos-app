@@ -1,4 +1,5 @@
-import { useState } from "react";
+// Sidebar.jsx
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
@@ -27,15 +28,15 @@ const Sidebar = () => {
   const menuItems3 = ["Sign Out"];
 
   return (
-    <div style={{ display: "flex" }}>
+    <div style={{ display: "flex", height: "100vh" }}>
       {/* Sidebar */}
       <div
         style={{
           width: isOpen ? 250 : 0,
-          backgroundColor: "#ddd",
+          backgroundColor: "#2d2d2d",
+          color: "#f1f1f1",
           transition: "width 0.3s",
           overflow: "hidden",
-          height: "100vh",
           padding: isOpen ? "20px 10px" : "0",
           boxSizing: "border-box",
         }}
@@ -44,7 +45,7 @@ const Sidebar = () => {
         <div
           style={{
             backgroundColor: "#c75a15",
-            color: "white",
+            color: "#ffffff",
             width: 80,
             height: 80,
             borderRadius: "50%",
@@ -60,7 +61,7 @@ const Sidebar = () => {
           SR
         </div>
 
-        {/* Menu */}
+        {/* Menu Groups */}
         {[menuItems1, menuItems2, menuItems3].map((group, i) => (
           <div key={i} style={{ marginBottom: 20 }}>
             {group.map((item) => (
@@ -69,14 +70,18 @@ const Sidebar = () => {
                 onClick={() => handleMenuClick(item)}
                 style={{
                   padding: "12px 15px",
-                  backgroundColor: "white",
-                  borderBottom: "1px solid #ccc",
+                  backgroundColor: "#3e3e3e",
+                  color: "#f1f1f1",
+                  borderBottom: "1px solid #555555",
                   cursor: "pointer",
                   display: "flex",
                   justifyContent: "space-between",
+                  alignItems: "center",
+                  userSelect: "none",
                 }}
               >
-                {item} <span>&gt;</span>
+                <span>{item}</span>
+                <span>&gt;</span>
               </div>
             ))}
           </div>
@@ -86,12 +91,15 @@ const Sidebar = () => {
       {/* Toggle Button */}
       <div style={{ padding: 10 }}>
         <button
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => setIsOpen((open) => !open)}
           style={{
             fontSize: 20,
             background: "none",
-            border: "none",
+            border: "1px solid #f1f1f1",
+            borderRadius: 4,
+            color: "#f1f1f1",
             cursor: "pointer",
+            padding: 8,
           }}
         >
           ☰
