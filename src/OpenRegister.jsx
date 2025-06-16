@@ -41,35 +41,49 @@ const OpenRegister = () => {
     alert("🦵 Drawer kicked!");
   };
 
+  // Common styles
+  const inputStyle = {
+    width: "100%",
+    marginBottom: 8,
+    padding: 8,
+    fontSize: 16,
+    backgroundColor: "#fff",
+    color: "#333",
+    border: "1px solid #ccc",
+    borderRadius: 4,
+  };
+
   return (
     <div style={{ display: "flex" }}>
       <Sidebar />
-      <div style={{ flex: 1, backgroundColor: "#ccc", minHeight: "100vh" }}>
+      <div style={{ flex: 1, backgroundColor: "#f4f4f4", minHeight: "100vh" }}>
         <header
           style={{
-            backgroundColor: "green",
-            color: "white",
-            padding: 10,
+            backgroundColor: "#2E7D32", // darker green
+            color: "#fff",
+            padding: "12px 20px",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
           }}
         >
-          <h2 style={{ margin: 0 }}>Open Register</h2>
+          <h2 style={{ margin: 0, fontSize: 24 }}>Open Register</h2>
           <span
-            style={{ color: "lightblue", cursor: "pointer" }}
+            style={{ color: "#BBDEFB", cursor: "pointer", fontSize: 16 }}
             onClick={kickDrawer}
           >
             Kick Drawer
           </span>
         </header>
 
-        <div style={{ display: "flex", marginTop: 20, padding: 20 }}>
+        <div style={{ display: "flex", marginTop: 20, padding: "0 20px" }}>
           {/* Left Side - Coins & Bills */}
           <div style={{ flex: 1, paddingRight: 20 }}>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <h3>COINS</h3>
-              <span style={{ fontWeight: "bold" }}>{coinTotal}</span>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <h3 style={{ color: "#333", margin: 0, fontSize: 18 }}>COINS</h3>
+              <span style={{ fontWeight: "bold", fontSize: 18, color: "#333" }}>
+                {coinTotal}
+              </span>
             </div>
 
             {coins.map((val, i) => (
@@ -80,7 +94,7 @@ const OpenRegister = () => {
                 placeholder="0.00"
                 value={val}
                 onChange={(e) => handleCoinChange(i, e.target.value)}
-                style={{ width: "100%", marginBottom: 5 }}
+                style={inputStyle}
               />
             ))}
 
@@ -88,17 +102,18 @@ const OpenRegister = () => {
               style={{
                 display: "flex",
                 justifyContent: "space-between",
-                marginTop: 10,
+                alignItems: "center",
+                marginTop: 16,
               }}
             >
-              <h3>BILLS</h3>
+              <h3 style={{ color: "#333", margin: 0, fontSize: 18 }}>BILLS</h3>
               <span
                 onClick={resetBills}
-                style={{ color: "blue", cursor: "pointer", fontSize: 14 }}
+                style={{ color: "#1976D2", cursor: "pointer", fontSize: 14 }}
               >
-                Set Bills to 0
+                Reset
               </span>
-              <span style={{ fontWeight: "bold", marginLeft: "auto" }}>
+              <span style={{ fontWeight: "bold", fontSize: 18, color: "#333" }}>
                 {billTotal}
               </span>
             </div>
@@ -111,23 +126,28 @@ const OpenRegister = () => {
                 placeholder="0.00"
                 value={val}
                 onChange={(e) => handleBillChange(i, e.target.value)}
-                style={{ width: "100%", marginBottom: 5 }}
+                style={inputStyle}
               />
             ))}
 
-            <div style={{ marginTop: 10 }}>
-              <strong>Currency in Drawer: {drawerTotal}</strong>
+            <div style={{ marginTop: 16 }}>
+              <strong style={{ fontSize: 16, color: "#333" }}>
+                Currency in Drawer: {drawerTotal}
+              </strong>
             </div>
 
             <button
               onClick={handleSubmit}
               style={{
-                marginTop: 10,
-                padding: 10,
-                backgroundColor: "#223c74",
-                color: "white",
+                marginTop: 16,
+                padding: 12,
+                backgroundColor: "#1A237E",
+                color: "#fff",
                 border: "none",
+                borderRadius: 4,
                 width: "100%",
+                fontSize: 16,
+                cursor: "pointer",
               }}
             >
               Submit
@@ -136,18 +156,16 @@ const OpenRegister = () => {
 
           {/* Right Side - Notes */}
           <div style={{ flex: 1 }}>
-            <h3>NOTES</h3>
+            <h3 style={{ color: "#333", fontSize: 18 }}>NOTES</h3>
             <textarea
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              style={{
-                width: "100%",
-                height: 150,
-                borderRadius: 6,
-                padding: 10,
-                border: "1px solid #ccc",
-              }}
               placeholder="Write notes here..."
+              style={{
+                ...inputStyle,
+                height: 180,
+                resize: "vertical",
+              }}
             />
           </div>
         </div>
