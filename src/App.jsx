@@ -5,7 +5,7 @@ import OpenRegister from './OpenRegister';
 import Sale from './Sale';
 import './App.css';
 
-// ─── Extracted out so it has a stable identity across renders ─────────────
+// ─── LoginPage Component ─────────────────────────────────────────────────────
 function LoginPage({ email, setEmail, password, setPassword, error, onSubmit }) {
   return (
     <div className="login-container">
@@ -37,47 +37,30 @@ function LoginPage({ email, setEmail, password, setPassword, error, onSubmit }) 
 }
 
 function App() {
-  const [email, setEmail]       = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError]       = useState('');
+  const [email, setEmail]           = useState('');
+  const [password, setPassword]     = useState('');
+  const [error, setError]           = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const handleSubmit = async (e) => {
+  // ─── Temporarily hard-coded login check ────────────────────────────────────
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    try {
-      const response = await fetch('/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
+    // Replace these with whatever test credentials you like:
+    const VALID_EMAIL    = 'user@example.com';
+    const VALID_PASSWORD = 'password123';
 
-      const text = await response.text();
-      let data;
-      try {
-        data = JSON.parse(text);
-      } catch (err) {
-        throw new Error('Server returned invalid JSON: ' + text);
-      }
-
-      if (data.success || data.status === 200) {
-        setIsLoggedIn(true);
-        setError('');
-      } else {
-        setError(data.message || 'Login failed');
-      }
-
-      if (!data.success) {
-        console.log('❗ RAW NetSuite response:', data.raw);
-      }
-    } catch (err) {
-      console.error(err);
-      setError('Server error. Try again.');
+    if (email === VALID_EMAIL && password === VALID_PASSWORD) {
+      setIsLoggedIn(true);
+      setError('');
+    } else {
+      setError('Invalid email or password');
     }
   };
 
   return (
     <Routes>
+      {/* Root: Login when logged-out, else jump to /register */}
       <Route
         path="/"
         element={
@@ -90,18 +73,28 @@ function App() {
                 error={error}
                 onSubmit={handleSubmit}
               />
-            : <Navigate to="/register" />
+            : <Navigate to="/register" replace />
         }
       />
 
+      {/* Protected /register */}
       <Route
         path="/register"
-        element={isLoggedIn ? <OpenRegister /> : <Navigate to="/" />}
+        element={
+          isLoggedIn 
+            ? <OpenRegister /> 
+            : <Navigate to="/" replace />
+        }
       />
 
+      {/* Protected /sale */}
       <Route
         path="/sale"
-        element={isLoggedIn ? <Sale /> : <Navigate to="/" />}
+        element={
+          isLoggedIn 
+            ? <Sale /> 
+            : <Navigate to="/" replace />
+        }
       />
     </Routes>
   );
